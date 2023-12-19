@@ -74,11 +74,11 @@ class _MyAppState extends State<MyApp> {
                     }
                   });
             }
-            return Center(
+            return const Center(
               child: SizedBox(
                 child: Text(
-                  snap.data.toString(),
-                  style: const TextStyle(
+                  "Fingerprint not detected",
+                  style: TextStyle(
                     color: Colors.white,
                   ),
                 ),

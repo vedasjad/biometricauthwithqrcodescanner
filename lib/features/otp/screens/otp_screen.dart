@@ -18,11 +18,10 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String qrData = "";
-  int beginTime = 0;
   int secondsLeft = 0;
 
   Map<String, int> letterCounts = {};
-  String otp = "999999";
+  String otp = "000000";
   Employee employee = Employee(
       empID: "empID", id: "id", key: "key", username: "username", role: "role");
   Future getUserInfo() async {
@@ -68,18 +67,8 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   updateSecondsLeft() {
-    secondsLeft =
-        60 - ((DateTime.now().millisecondsSinceEpoch - beginTime) ~/ 1000);
-    if (secondsLeft <= 1) {
-      setState(() {
-        beginTime = DateTime.now().millisecondsSinceEpoch;
-      });
-    }
-    if (secondsLeft >= 59) {
-      setState(() {
-        generateOTP();
-      });
-    }
+    secondsLeft = 59 - DateTime.now().second;
+    generateOTP();
   }
 
   Timer timer = Timer(const Duration(seconds: 1), () {});
@@ -96,7 +85,6 @@ class _OTPScreenState extends State<OTPScreen> {
   f() async {
     await getUserInfo();
     setState(() {
-      beginTime = DateTime.now().millisecondsSinceEpoch;
       startTimer();
     });
   }
