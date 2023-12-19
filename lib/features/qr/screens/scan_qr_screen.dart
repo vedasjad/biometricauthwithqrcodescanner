@@ -82,6 +82,7 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
     final prefs = await SharedPreferences.getInstance();
     String key = 'EmployeeData';
     prefs.setString(key, employee.toJson().toString());
+    // Employee employee = Employee.fromJson(jsonDecode(prefs.getString('EmployeeData')??""));
   }
 
   @override
@@ -191,11 +192,12 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
     );
   }
 
-  void _onQRDetected(BarcodeCapture capture) {
+  void _onQRDetected(BarcodeCapture capture) async {
     final List<Barcode> barcodes = capture.barcodes;
+    String qrData = barcodes.first.rawValue!;
+    employee = Employee.fromJson(jsonDecode(qrData));
+    await saveQRData();
     setState(() {
-      String qrData = barcodes.first.rawValue!;
-      employee = Employee.fromJson(jsonDecode(qrData));
       beginTime = DateTime.now().millisecondsSinceEpoch;
       startTimer();
     });
